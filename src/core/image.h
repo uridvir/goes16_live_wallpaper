@@ -7,7 +7,7 @@
 //functions meant to be used internally by the core library
 namespace image_internal
 {
-  /* This function inserts a raw image, with specified height, width, bitdepth (bytes * 8), x offset and y offset, 
+  /* This function inserts a raw image, with specified height, width, bitdepth (bytes * 8), x offset and y offset,
    * into another image.
    */
   void insertChunk(std::vector<uint8_t>& out, const std::vector<uint8_t>& in, int width, int height, int bytes,
