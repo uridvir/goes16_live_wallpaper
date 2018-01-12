@@ -13,7 +13,11 @@ I plan to support Windows, Mac OS X, and most Linux distributions.
 Yes, and no. There is code on GitHub that can download images from the GOES-16 satellite, and there is also code that
 continuously sets the desktop wallpaper to images from Himawari-8, a satellite with a view of the region around the
 Indian and East Pacific oceans. There is no existing project that combines the two and updates the desktop to pictures
-from GOES-16.
+from GOES-16. The only exception I was able to find is this repo: https://github.com/cameronleger/goes16-background.
+What makes this project different is that cameronleger's project is not cross-platform (doesn't even run on Windows),
+uses Python, which introduces a dependency for the end-user, and needs to be externally run every fifteen minutes.
+Also, my project uses GeoColor images, while cameronleger's uses natural color. It's close, but doesn't meet all the
+requirements I've set for my own project.
 
 ### Why C++?
 
