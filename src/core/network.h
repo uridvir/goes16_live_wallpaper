@@ -8,10 +8,7 @@ namespace network
   int latestTimestamp();
 
   //string representation of a timestamp
-  struct DecodedTimestamp {
-    std::string date;
-    std::string stamp;
-  };
+  struct DecodedTimestamp;
 
   DecodedTimestamp decodeTimestamp(const int timestamp);
 
