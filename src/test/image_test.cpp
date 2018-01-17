@@ -13,14 +13,14 @@ inline void printImage(const std::vector<uint8_t>& input, int width, int height,
     for (int x = 0; x < width; x++)
     {
       //print pixel
-      std::printf("(%d", input[y * width * bytes + x * bytes]);
+      std::cout << "(" << input[y * width * bytes + x * bytes];
       for (int i = 1; i < bytes; i++)
       {
-        std::printf(", %d", input[y * width * bytes + x * bytes + i]);
+        std::cout << ", " << input[y * width * bytes + x * bytes + i];
       }
-      std::printf(") ");
+      std::cout << ") ";
     }
-    std::printf("\n");
+    std::cout << std::endl;
   }
 }
 
@@ -58,9 +58,9 @@ TEST(Image, ChunkInsert) //NOLINT
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
     };
     image_internal::insertChunk(output, redSquare, width, height, bytes, 0, 0);
-    std::printf("Top left corner insert:\n");
+    std::cout << "Top left corner insert:" << std::endl;
     printImage(output, width * 2, height * 2, bytes);
-    std::printf("\n");
+    std::cout << std::endl;
     EXPECT_TRUE(output == expected) << "Top left corner insert doesn't match";
   }
 
@@ -75,9 +75,9 @@ TEST(Image, ChunkInsert) //NOLINT
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
     };
     image_internal::insertChunk(output, redSquare, width, height, bytes, width, 0);
-    std::printf("Top right corner insert:\n");
+    std::cout << "Top right corner insert:" << std::endl;
     printImage(output, width * 2, height * 2, bytes);
-    std::printf("\n");
+    std::cout << std::endl;
     EXPECT_TRUE(output == expected) << "Top right corner insert doesn't match";
   }
 
@@ -92,9 +92,9 @@ TEST(Image, ChunkInsert) //NOLINT
       255, 0, 0, 255, 0, 0, 0, 0, 0, 0, 0, 0
     };
     image_internal::insertChunk(output, redSquare, width, height, bytes, 0, height);
-    std::printf("Bottom left corner insert:\n");
+    std::cout << "Bottom left corner insert:" << std::endl;
     printImage(output, width * 2, height * 2, bytes);
-    std::printf("\n");
+    std::cout << std::endl;
     EXPECT_TRUE(output == expected) << "Bottom left corner insert doesn't match";
   }
 
@@ -109,9 +109,9 @@ TEST(Image, ChunkInsert) //NOLINT
       0, 0, 0, 0, 0, 0, 255, 0, 0, 255, 0, 0
     };
     image_internal::insertChunk(output, redSquare, width, height, bytes, width, height);
-    std::printf("Bottom right corner insert:\n");
+    std::cout << "Bottom right corner insert:" << std::endl;
     printImage(output, width * 2, height * 2, bytes);
-    std::printf("\n");
+    std::cout << std::endl;
     EXPECT_TRUE(output == expected) << "Bottom right corner insert doesn't match";
   }
 }
@@ -133,7 +133,7 @@ TEST(Image, StitchFourImages) //NOLINT
   const int bit_depth = 24;
 
   //input to function of squares in specified order
-  const std::vector<uint8_t> input[] = { redSquare, whiteSquare, blueSquare, whiteSquare };
+  const std::vector<std::vector<uint8_t>> input = {redSquare, whiteSquare, blueSquare, whiteSquare};
   //expected result
   const std::vector<uint8_t> expectedResult =
   {
@@ -148,20 +148,18 @@ TEST(Image, StitchFourImages) //NOLINT
   image::stitchFourImages(output, input, width, height, bit_depth);
 
   /* Make sure that sizes match before performing additional tests, otherwise a mismatch could lead to out-of-bounds
-  element access and segmentation faults, not a good outcome for a unit test. */
-  auto message = new char[100];
-  std::sprintf(message, "output has size %d, but should have size %d!", output.size(), expectedResult.size());
-  //If this assertion fails, a 100-byte memory leak is the least of my concerns
-  ASSERT_EQ(expectedResult.size(), output.size()) << message; //NOLINT
-  delete[] message;
+   * element access and segmentation faults, not a good outcome for a unit test.
+   */
+  ASSERT_EQ(expectedResult.size(), output.size()) << "output has size " << output.size() << ", but should have size "
+                                                  << expectedResult.size() << "!";
 
   //convert the bitdepth to a number of bytes
   const int bytes = bit_depth / 8;
 
   //debugging output
-  std::printf("Stitch test:\n");
+  std::cout << "Stitch test:" << std::endl;
   printImage(output, width * 2, height * 2, bytes);
-  std::printf("\n");
+  std::cout << std::endl;
 
   //now that the sizes have been checked, compare the vectors by pixel (3 elements when bitdepth is 24)
   for (int y = 0; y < height * 2; y++)
@@ -173,10 +171,9 @@ TEST(Image, StitchFourImages) //NOLINT
       //make sure that each pixel is the color that is expected
       for (int j = 0; j < bytes; j++)
       {
-        auto message = new char[100];
-        std::sprintf(message, "[%d, %d]: channel %d has value %d, should be %d", x + 1, y + 1, j + 1, output[i + j],
-          expectedResult[i + j]);
-        EXPECT_EQ(output[i + j], expectedResult[i + j]) << message;
+        EXPECT_EQ(output[i + j], expectedResult[i + j]) << "[" << x + 1 << ", " << y + 1 << "]: channel " << j + 1
+                                                        << " has value " << output[i + j] << ", should be "
+                                                        << expectedResult[i + j];
       }
     }
   }

@@ -24,8 +24,8 @@ inline void image_internal::insertChunk(std::vector<uint8_t>& out, const std::ve
   }
 } //function insertChunk
 
-void image::stitchFourImages(std::vector<unsigned char>& out, const std::vector<uint8_t>* images, int width,
-  int height, int bit_depth)
+void image::stitchFourImages(std::vector<unsigned char>& out, const std::vector<std::vector<uint8_t>>& images,
+  int width, int height, int bit_depth)
 {
   //Since the insertChunk function takes the bitdepth in bytes, we do a conversion:
   const int bytes = bit_depth / 8;

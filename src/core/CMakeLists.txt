@@ -1,2 +1,5 @@
 add_library(image image.cpp)
 target_include_directories(image PUBLIC ${HEADER_LIST})
+add_library(network network.cpp)
+target_link_libraries(network PUBLIC libcurl nlohmann_json)
+target_include_directories(network PUBLIC ${HEADER_LIST})

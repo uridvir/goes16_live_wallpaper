@@ -1,6 +1,12 @@
 #include "curl/curl.h"
 #include "json.hpp"
 
+namespace network_internal
+{
+  //Exception thrown in case of failure
+  class NetworkException;
+}
+
 //networking functions pertaining to downloading images from the Colorado State server
 namespace network
 {

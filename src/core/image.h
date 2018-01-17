@@ -22,6 +22,6 @@ namespace image
       |
    2  |  3
   */
-  void stitchFourImages(std::vector<unsigned char>& out, const std::vector<unsigned char>* images,
+  void stitchFourImages(std::vector<unsigned char>& out, const std::vector<std::vector<unsigned char>>& images,
     int width, int height, int bit_depth);
 } //namespace image
